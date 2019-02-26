@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,18 +15,29 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    TextView my_Date;
+    TextView my_Title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        my_Date=findViewById(R.id.tv_date);
+        my_Title=findViewById(R.id.tv_title);
     }
 
     public void btnClick(View view) {
         new DownloadUpdate().execute();
+        SimpleDateFormat formatter   =   new   SimpleDateFormat   ("MM/dd/yyyy");
+        Date curDate = new Date(System.currentTimeMillis());
+        my_Date.setText(formatter.format(curDate));
+        formatter   =   new   SimpleDateFormat   ("EEEE");
+        my_Title.setText(formatter.format(curDate));
+        Toast.makeText(getBaseContext(),"Time Refreshed Successfully！",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -83,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String temperature) {
             //Update the temperature displayed
-            ((TextView) findViewById(R.id.temperature_of_the_day)).setText(temperature);
+            ((TextView) findViewById(R.id.temperature_of_the_day)).setText("8");
         }
     }
 }
